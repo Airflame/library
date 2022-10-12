@@ -1,4 +1,4 @@
-# InternalLibrary
+# Library
 
 ## 1. Backend
 
