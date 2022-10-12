@@ -1,0 +1,110 @@
+<form [formGroup]="formGroup">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Lend the book {{ book.id }}
+    </h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label">Borrower</label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          id="typeahead-borrower"
+          name="borrowerInput"
+          [ngbTypeahead]="searchBorrower"
+          [(ngModel)]="borrowerInput"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="selectBorrower()"
+          [class.is-valid]="
+            formGroup.get('firstName').valid && formGroup.get('lastName').valid
+          "
+          [class.is-invalid]="
+            !formGroup.get('firstName').valid ||
+            !formGroup.get('lastName').valid
+          "
+          (focus)="focus$.next($any($event).target.value)"
+          (click)="click$.next($any($event).target.value)"
+          #instance="ngbTypeahead"
+        />
+        <div class="invalid-feedback">
+          <span *ngIf="!formGroup.get('firstName').valid"
+            >First name size must be between 3 and 50 characters.</span
+          >
+          <span
+            *ngIf="
+              !formGroup.get('firstName').valid &&
+              !formGroup.get('lastName').valid
+            "
+          >
+            <br />
+          </span>
+          <span *ngIf="!formGroup.get('lastName').valid"
+            >Last name size must be between 3 and 50 characters.</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label">Date</label>
+      <div class="col-md-9">
+        <form>
+          <div class="input-group">
+            <input
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="dp"
+              [(ngModel)]="dateModel"
+              ngbDatepicker
+              #d="ngbDatepicker"
+              [readonly]="true"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                (click)="d.toggle()"
+                type="button"
+              >
+                <i class="ti ti-calendar"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="form-group row required">
+      <label class="col-md-3 col-form-label">Comment</label>
+      <div class="col-md-9">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="comment"
+          [class.is-valid]="formGroup.get('comment').valid"
+          [class.is-invalid]="!formGroup.get('comment').valid"
+        />
+        <div class="invalid-feedback">
+          Comment size must be less than 50 characters.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      [disabled]="!formGroup.valid"
+      (click)="save(); modal.close()"
+    >
+      Save
+    </button>
+  </div>
+</form>

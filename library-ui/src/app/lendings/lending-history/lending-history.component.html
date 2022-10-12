@@ -1,0 +1,437 @@
+<div>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h2 class="h2">
+      Lending history of
+      <span *ngIf="this.borrowerHeader; else elseBlock">{{
+        borrowerHeader
+      }}</span>
+      <ng-template #elseBlock>a given borrower</ng-template>
+    </h2>
+  </div>
+  <div>
+    <div class="form-group form-inline">
+      <label for="typeahead-person">Search for a borrower:</label>
+      <input
+        class="form-control ml-2"
+        type="text"
+        id="typeahead-borrower"
+        name="borrowerInput"
+        [ngbTypeahead]="searchBorrower"
+        [(ngModel)]="borrowerInput"
+        [editable]="false"
+        (focus)="focus$.next($any($event).target.value)"
+        (click)="click$.next($any($event).target.value)"
+        #instance="ngbTypeahead"
+      />
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="selectBorrower()"
+      >
+        Select
+      </button>
+    </div>
+    <div *ngIf="showCurrent$ | async">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-top"
+      >
+        <h4 class="h4">Currently lent books</h4>
+      </div>
+      <div>
+        <div class="form-group form-inline">
+          Search:
+          <input
+            class="form-control ml-2"
+            type="text"
+            name="searchTerm"
+            [(ngModel)]="currentBooksService.searchTerm"
+          />
+          <span
+            class="ml-3"
+            *ngIf="currentBooksService.loading$ | async; else resultsFound"
+            >Loading...</span
+          >
+          <ng-template #resultsFound>
+            <span class="ml-3" *ngIf="currentBooksService.searchTerm != ''"
+              >Found {{ currentBooksTotal$ | async }} results</span
+            >
+          </ng-template>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                sortable="id"
+                [direction]="bookColumn != 'id' ? '' : bookDirection"
+                (sort)="booksOnSort($event)"
+              >
+                Id
+              </th>
+              <th
+                scope="col"
+                sortable="author"
+                [direction]="bookColumn != 'author' ? '' : bookDirection"
+                (sort)="booksOnSort($event)"
+              >
+                Author
+              </th>
+              <th
+                scope="col"
+                sortable="title"
+                [direction]="bookColumn != 'title' ? '' : bookDirection"
+                (sort)="booksOnSort($event)"
+              >
+                Title
+              </th>
+              <th
+                scope="col"
+                sortable="category"
+                [direction]="bookColumn != 'category' ? '' : bookDirection"
+                (sort)="booksOnSort($event)"
+              >
+                Category
+              </th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let book of currentBooks$ | async; index as i">
+              <td>
+                <ngb-highlight
+                  [result]="book.id"
+                  [term]="currentBooksService.searchTerm"
+                ></ngb-highlight>
+              </td>
+              <td>
+                <ngb-highlight
+                  [result]="book.author"
+                  [term]="currentBooksService.searchTerm"
+                ></ngb-highlight>
+              </td>
+              <td>
+                <ngb-highlight
+                  [result]="book.title"
+                  [term]="currentBooksService.searchTerm"
+                ></ngb-highlight>
+              </td>
+              <td>
+                <ngb-highlight
+                  [result]="book.category | titlecase"
+                  [term]="currentBooksService.searchTerm"
+                ></ngb-highlight>
+              </td>
+              <td>
+                <i
+                  class="ti ti-exchange-vertical text-info"
+                  placement="top"
+                  ngbTooltip="Return"
+                  (click)="returnBook(book)"
+                ></i>
+                <i
+                  class="ti ti-view-list text-info ml-2"
+                  placement="top"
+                  ngbTooltip="Lending history"
+                  [routerLink]="'../books/' + book.id"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination
+            [collectionSize]="(currentBooksTotal$ | async)!"
+            [(page)]="currentBooksService.page"
+            [pageSize]="currentBooksService.pageSize"
+          >
+          </ngb-pagination>
+          <select
+            class="custom-select"
+            style="width: auto"
+            name="pageSize"
+            [(ngModel)]="currentBooksService.pageSize"
+          >
+            <option [ngValue]="5">5 items per page</option>
+            <option [ngValue]="10">10 items per page</option>
+            <option [ngValue]="20">20 items per page</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showCurrent$ | async">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-top"
+      >
+        <h4 class="h4">Current lendings</h4>
+      </div>
+      <div class="form-group form-inline">
+        Search:
+        <input
+          class="form-control ml-2"
+          type="text"
+          name="searchTerm"
+          [(ngModel)]="currentLendingsService.searchTerm"
+        />
+        <span
+          class="ml-3"
+          *ngIf="currentLendingsService.loading$ | async; else resultsFound"
+          >Loading...</span
+        >
+        <ng-template #resultsFound>
+          <span class="ml-3" *ngIf="currentLendingsService.searchTerm != ''"
+            >Found {{ currentTotal$ | async }} results</span
+          >
+        </ng-template>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th
+              scope="col"
+              sortable="bookId"
+              [direction]="currentColumn != 'bookId' ? '' : currentDirection"
+              (sort)="currentOnSort($event)"
+            >
+              Book id
+            </th>
+            <th
+              scope="col"
+              sortable="dateLent"
+              [direction]="currentColumn != 'dateLent' ? '' : currentDirection"
+              (sort)="currentOnSort($event)"
+            >
+              Date lent
+            </th>
+            <th
+              scope="col"
+              sortable="firstName"
+              [direction]="currentColumn != 'firstName' ? '' : currentDirection"
+              (sort)="currentOnSort($event)"
+            >
+              First name
+            </th>
+            <th
+              scope="col"
+              sortable="lastName"
+              [direction]="currentColumn != 'lastName' ? '' : currentDirection"
+              (sort)="currentOnSort($event)"
+            >
+              Last name
+            </th>
+            <th scope="col">Comment</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lending of currentLendings$ | async; index as i">
+            <td>
+              <ngb-highlight
+                [result]="lending.bookId"
+                [term]="currentLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.dateLent"
+                [term]="currentLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.firstName"
+                [term]="currentLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.lastName"
+                [term]="currentLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.comment"
+                [term]="currentLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <i
+                class="ti ti-view-list text-info"
+                placement="top"
+                ngbTooltip="Book history"
+                [routerLink]="'../books/' + lending.bookId"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="(pastTotal$ | async)!"
+          [(page)]="currentLendingsService.page"
+          [pageSize]="currentLendingsService.pageSize"
+        >
+        </ngb-pagination>
+        <select
+          class="custom-select"
+          style="width: auto"
+          name="pageSize"
+          [(ngModel)]="currentLendingsService.pageSize"
+        >
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="20">20 items per page</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="showPastLendings$ | async">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-top"
+      >
+        <h4 class="h4">Past lendings</h4>
+      </div>
+      <div class="form-group form-inline">
+        Search:
+        <input
+          class="form-control ml-2"
+          type="text"
+          name="searchTerm"
+          [(ngModel)]="pastLendingsService.searchTerm"
+        />
+        <span
+          class="ml-3"
+          *ngIf="pastLendingsService.loading$ | async; else resultsFound"
+          >Loading...</span
+        >
+        <ng-template #resultsFound>
+          <span class="ml-3" *ngIf="pastLendingsService.searchTerm != ''"
+            >Found {{ pastTotal$ | async }} results</span
+          >
+        </ng-template>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th
+              scope="col"
+              sortable="bookId"
+              [direction]="pastColumn != 'bookId' ? '' : pastDirection"
+              (sort)="pastOnSort($event)"
+            >
+              Book id
+            </th>
+            <th
+              scope="col"
+              sortable="dateLent"
+              [direction]="pastColumn != 'dateLent' ? '' : pastDirection"
+              (sort)="pastOnSort($event)"
+            >
+              Date lent
+            </th>
+            <th
+              scope="col"
+              sortable="dateReturned"
+              [direction]="pastColumn != 'dateReturned' ? '' : pastDirection"
+              (sort)="pastOnSort($event)"
+            >
+              Date returned
+            </th>
+            <th
+              scope="col"
+              sortable="firstName"
+              [direction]="pastColumn != 'firstName' ? '' : pastDirection"
+              (sort)="pastOnSort($event)"
+            >
+              First name
+            </th>
+            <th
+              scope="col"
+              sortable="lastName"
+              [direction]="pastColumn != 'lastName' ? '' : pastDirection"
+              (sort)="pastOnSort($event)"
+            >
+              Last name
+            </th>
+            <th scope="col">Comment</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lending of pastLendings$ | async; index as i">
+            <td>
+              <ngb-highlight
+                [result]="lending.bookId"
+                [term]="pastLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.dateLent"
+                [term]="pastLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.dateReturned"
+                [term]="pastLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.firstName"
+                [term]="pastLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.lastName"
+                [term]="pastLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight
+                [result]="lending.comment"
+                [term]="pastLendingsService.searchTerm"
+              ></ngb-highlight>
+            </td>
+            <td>
+              <i
+                class="ti ti-view-list text-info"
+                placement="top"
+                ngbTooltip="Book history"
+                [routerLink]="'../books/' + lending.bookId"
+              ></i>
+              <i
+                class="ti ti-trash text-danger ml-2"
+                placement="top"
+                ngbTooltip="Delete"
+                (click)="deletePastLending(lending)"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="(pastTotal$ | async)!"
+          [(page)]="pastLendingsService.page"
+          [pageSize]="pastLendingsService.pageSize"
+        >
+        </ngb-pagination>
+        <select
+          class="custom-select"
+          style="width: auto"
+          name="pageSize"
+          [(ngModel)]="pastLendingsService.pageSize"
+        >
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="20">20 items per page</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="white-footer"></div>
+</div>

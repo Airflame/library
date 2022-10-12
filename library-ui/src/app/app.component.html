@@ -1,0 +1,113 @@
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0">Library</a>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              [class.active]="selectedRoute == '/'"
+              routerLink="/"
+              (click)="selectedRoute = '/'"
+            >
+              Home
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6
+            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          >
+            <span>Books</span>
+          </h6>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="selectedRoute == '/books/available'"
+              routerLink="/books/available"
+              (click)="selectedRoute = '/books/available'"
+            >
+              <i class="ti ti-book"></i>
+              <span class="ml-2">Available books</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="selectedRoute == '/books/lent'"
+              routerLink="/books/lent"
+              (click)="selectedRoute = '/books/lent'"
+            >
+              <i class="ti ti-book"></i>
+              <span class="ml-2">Lent books</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6
+            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          >
+            <span>Categories</span>
+          </h6>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="selectedRoute == '/categories'"
+              routerLink="/categories"
+              (click)="selectedRoute = '/categories'"
+            >
+              <i class="ti ti-view-list-alt"></i>
+              <span class="ml-2">Categories</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6
+            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          >
+            <span>Borrowers</span>
+          </h6>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="selectedRoute == '/borrowers'"
+              routerLink="/borrowers"
+              (click)="selectedRoute = '/borrowers'"
+            >
+            <i class="ti ti-user"></i>
+              <span class="ml-2">Borrowers</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6
+            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          >
+            <span>Lendings</span>
+          </h6>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="selectedRoute == '/lendings'"
+              routerLink="/lendings"
+              (click)="selectedRoute = '/lendings'"
+            >
+            <i class="ti ti-exchange-vertical"></i>
+              <span class="ml-2">Lendings</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<div class="container-fluid footer"></div>

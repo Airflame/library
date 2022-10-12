@@ -1,0 +1,164 @@
+{
+  "firstName": "cyFirst",
+  "lastName": "cyLast",
+  "pastLendings": [
+    {
+      "id": 11,
+      "bookId": 2,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2020-03-20",
+      "dateReturned": "2020-04-20",
+      "comment": "test"
+    },
+    {
+      "id": 12,
+      "bookId": 2,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2019-04-20",
+      "dateReturned": "2019-05-20",
+      "comment": "test"
+    },
+    {
+      "id": 13,
+      "bookId": 2,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2019-04-20",
+      "dateReturned": "2019-05-20",
+      "comment": "test"
+    },
+    {
+      "id": 14,
+      "bookId": 3,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2020-05-20",
+      "dateReturned": "2020-06-20",
+      "comment": "test"
+    },
+    {
+      "id": 15,
+      "bookId": 3,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2020-06-20",
+      "dateReturned": "2020-07-20",
+      "comment": "test"
+    },
+    {
+      "id": 17,
+      "bookId": 1,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2019-08-20",
+      "dateReturned": "2019-09-20",
+      "comment": "test"
+    },
+    {
+      "id": 16,
+      "bookId": 1,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2020-03-20",
+      "dateReturned": "2020-07-20",
+      "comment": "test"
+    }
+  ],
+  "currentLendings": [
+    {
+      "id": 22,
+      "bookId": 12,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2021-03-11",
+      "dateReturned": null,
+      "comment": "No comment"
+    },
+    {
+      "id": 21,
+      "bookId": 11,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2021-02-14",
+      "dateReturned": null,
+      "comment": "No comment"
+    },
+    {
+      "id": 26,
+      "bookId": 16,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2021-03-15",
+      "dateReturned": null,
+      "comment": "No comment"
+    },
+    {
+      "id": 24,
+      "bookId": 14,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2021-02-12",
+      "dateReturned": null,
+      "comment": "Zzzzzz"
+    },
+    {
+      "id": 25,
+      "bookId": 15,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2021-02-13",
+      "dateReturned": null,
+      "comment": "No comment"
+    },
+    {
+      "id": 23,
+      "bookId": 13,
+      "firstName": "cyFirst",
+      "lastName": "cyLast",
+      "dateLent": "2021-02-11",
+      "dateReturned": null,
+      "comment": "Aaaaaa"
+    }
+  ],
+  "lentBooks": [
+    {
+      "id": 13,
+      "author": "Autor13",
+      "title": "12Tytul",
+      "category": "programming"
+    },
+    {
+      "id": 12,
+      "author": "12Autor",
+      "title": "Tytul13",
+      "category": "programming"
+    },
+    {
+      "id": 11,
+      "author": "Autor2",
+      "title": "Tytul2",
+      "category": "programming"
+    },
+    {
+      "id": 14,
+      "author": "Fffff",
+      "title": "Fffff",
+      "category": "default"
+    },
+    {
+      "id": 15,
+      "author": "Xxxxx",
+      "title": "Uuuuu",
+      "category": "testing"
+    },
+    {
+      "id": 16,
+      "author": "Yyyy",
+      "title": "Rrrrr",
+      "category": "programming"
+    }
+  ],
+  "bookCount": 6
+}

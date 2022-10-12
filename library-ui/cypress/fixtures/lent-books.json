@@ -1,0 +1,22 @@
+[
+  {
+    "id": 2,
+    "author": "Autor2",
+    "title": "Tytul2",
+    "category": "programming",
+    "firstName": "John",
+    "lastName": "Smith",
+    "dateLent": "2021-02-21",
+    "comment": "No comment"
+  },
+  {
+    "id": 3,
+    "author": "cyAuthor",
+    "title": "cyTitle",
+    "category": "default",
+    "firstName": "cyFirst",
+    "lastName": "cyLast",
+    "dateLent": "2021-02-21",
+    "comment": "No comment"
+  }
+]

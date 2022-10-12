@@ -1,0 +1,111 @@
+<div>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h2 class="h2">Books available for lending</h2>
+  </div>
+  <div>
+    <div class="form-group form-inline">
+      Search:
+      <input
+        class="form-control ml-2"
+        type="text"
+        name="searchTerm"
+        [(ngModel)]="availableBooksService.searchTerm"
+      />
+      <span
+        class="ml-3"
+        *ngIf="availableBooksService.loading$ | async; else resultsFound"
+        >Loading...</span
+      >
+      <ng-template #resultsFound>
+        <span class="ml-3" *ngIf="availableBooksService.searchTerm != ''"
+          >Found {{ total$ | async }} results</span
+        >
+      </ng-template>
+      <button type="button" class="btn btn-primary ml-auto" (click)="addBook()">
+        + Add
+      </button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" sortable="id" (sort)="onSort($event)">Id</th>
+          <th scope="col" sortable="author" (sort)="onSort($event)">Author</th>
+          <th scope="col" sortable="title" (sort)="onSort($event)">Title</th>
+          <th scope="col" sortable="category" (sort)="onSort($event)">
+            Category
+          </th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books$ | async; index as i">
+          <td>
+            <ngb-highlight
+              [result]="book.id"
+              [term]="availableBooksService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="book.author"
+              [term]="availableBooksService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="book.title"
+              [term]="availableBooksService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="book.category | titlecase"
+              [term]="availableBooksService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <i
+              class="ti ti-exchange-vertical text-info"
+              placement="top"
+              ngbTooltip="Lend"
+              (click)="lendBook(book)"
+            ></i>
+            <i
+              class="ti ti-view-list text-info ml-2"
+              placement="top"
+              ngbTooltip="Lending history"
+              [routerLink]="'../'+book.id"
+            ></i>
+            <i
+              class="ti ti-trash text-danger ml-2"
+              placement="top"
+              ngbTooltip="Delete"
+              (click)="deleteBook(book)"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="(total$ | async)!"
+        [(page)]="availableBooksService.page"
+        [pageSize]="availableBooksService.pageSize"
+      >
+      </ngb-pagination>
+      <select
+        class="custom-select"
+        style="width: auto"
+        name="pageSize"
+        [(ngModel)]="availableBooksService.pageSize"
+      >
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="20">20 items per page</option>
+      </select>
+    </div>
+  </div>
+  <div class="white-footer"></div>
+</div>

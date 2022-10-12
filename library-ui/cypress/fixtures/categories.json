@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "default",
+    "isStarting": true,
+    "bookCount": 1
+  },
+  {
+    "id": 2,
+    "name": "programming",
+    "isStarting": true,
+    "bookCount": 1
+  },
+  {
+    "id": 3,
+    "name": "management",
+    "isStarting": true,
+    "bookCount": 0
+  },
+  {
+    "id": 4,
+    "name": "testing",
+    "isStarting": true,
+    "bookCount": 0
+  },
+  {
+    "id": 5,
+    "name": "new",
+    "isStarting": false,
+    "bookCount": 0
+  },
+  {
+    "id": 6,
+    "name": "aaa",
+    "isStarting": true,
+    "bookCount": 1
+  },
+  {
+    "id": 7,
+    "name": "bbb",
+    "isStarting": true,
+    "bookCount": 1
+  },
+  {
+    "id": 8,
+    "name": "ccc",
+    "isStarting": true,
+    "bookCount": 0
+  },
+  {
+    "id": 99,
+    "name": "last",
+    "isStarting": true,
+    "bookCount": 0
+  },
+  {
+    "id": 10,
+    "name": "eee",
+    "isStarting": false,
+    "bookCount": 10
+  }
+]

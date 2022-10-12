@@ -1,0 +1,129 @@
+<div>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h2 class="h2">Categories</h2>
+  </div>
+  <div>
+    <div class="form-group form-inline">
+      Search:
+      <input
+        class="form-control ml-2"
+        type="text"
+        name="searchTerm"
+        [(ngModel)]="categoriesService.searchTerm"
+      />
+      <span
+        class="ml-3"
+        *ngIf="categoriesService.loading$ | async; else resultsFound"
+        >Loading...</span
+      >
+      <ng-template #resultsFound>
+        <span class="ml-3" *ngIf="categoriesService.searchTerm != ''"
+          >Found {{ total$ | async }} results</span
+        >
+      </ng-template>
+      <button
+        type="button"
+        class="btn btn-primary ml-auto"
+        (click)="addCategory()"
+      >
+        + Add
+      </button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th
+            scope="col"
+            sortable="id"
+            [direction]="column != 'id' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            Id
+          </th>
+          <th
+            scope="col"
+            sortable="name"
+            [direction]="column != 'name' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            Name
+          </th>
+          <th
+            scope="col"
+            sortable="bookCount"
+            [direction]="column != 'bookCount' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            Number of books
+          </th>
+          <th scope="col">Default</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories$ | async; index as i">
+          <td>
+            <ngb-highlight
+              [result]="category.id"
+              [term]="categoriesService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="category.name | titlecase"
+              [term]="categoriesService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="category.bookCount"
+              [term]="categoriesService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <div class="custom-control">
+              <input
+                class="custom-control custom-checkbox"
+                type="checkbox"
+                [checked]="category.isStarting"
+                disabled
+              />
+            </div>
+          </td>
+          <td>
+            <i
+              class="ti ti-trash"
+              [class.text-muted]="category.isStarting"
+              [class.text-danger]="!category.isStarting"
+              (click)="deleteCategory(category)"
+              placement="top"
+              ngbTooltip="Delete"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="(total$ | async)!"
+        [(page)]="categoriesService.page"
+        [pageSize]="categoriesService.pageSize"
+      >
+      </ngb-pagination>
+
+      <select
+        class="custom-select"
+        style="width: auto"
+        name="pageSize"
+        [(ngModel)]="categoriesService.pageSize"
+      >
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="20">20 items per page</option>
+      </select>
+    </div>
+  </div>
+  <div class="white-footer"></div>
+</div>

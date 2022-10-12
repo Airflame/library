@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">
+    Return the book {{ book.id }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="modal.dismiss()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group row required">
+    <label class="col-md-3 col-form-label">Date</label>
+    <div class="col-md-9">
+      <form>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="dp"
+            [class.is-valid]="!invalidDate"
+            [class.is-invalid]="invalidDate"
+            [(ngModel)]="dateModel"
+            (ngModelChange)="validateDate()"
+            ngbDatepicker
+            #d="ngbDatepicker"
+            [readonly]="true"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="d.toggle()"
+              type="button"
+            >
+              <i class="ti ti-calendar"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback">
+            Book can't be returned before
+            <span *ngIf="book.dateLent != null">{{ book.dateLent }}.</span>
+            <span *ngIf="book.dateLent == null">it has been lent.</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    [disabled]="invalidDate"
+    (click)="save(); modal.close()"
+  >
+    Save
+  </button>
+</div>

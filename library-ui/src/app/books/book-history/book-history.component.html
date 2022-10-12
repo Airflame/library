@@ -1,0 +1,121 @@
+<div>
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
+    <h2 class="h2">Lending history of book "{{ title }}" by {{ author }}</h2>
+  </div>
+  <div>
+    <div class="form-group form-inline">
+      Search:
+      <input
+        class="form-control ml-2"
+        type="text"
+        name="searchTerm"
+        [(ngModel)]="bookHistoryService.searchTerm"
+      />
+      <span
+        class="ml-3"
+        *ngIf="bookHistoryService.loading$ | async; else resultsFound"
+        >Loading...</span
+      >
+      <ng-template #resultsFound>
+        <span class="ml-3" *ngIf="bookHistoryService.searchTerm != ''"
+          >Found {{ total$ | async }} results</span
+        >
+      </ng-template>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th
+            scope="col"
+            sortable="dateLent"
+            [direction]="column != 'dateLent' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            Date lent
+          </th>
+          <th
+            scope="col"
+            sortable="dateReturned"
+            [direction]="column != 'dateReturned' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            Date returned
+          </th>
+          <th
+            scope="col"
+            sortable="firstName"
+            [direction]="column != 'firstName' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            First name
+          </th>
+          <th
+            scope="col"
+            sortable="lastName"
+            [direction]="column != 'lastName' ? '' : direction"
+            (sort)="onSort($event)"
+          >
+            Last name
+          </th>
+          <th scope="col">Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lending of lendings$ | async; index as i">
+          <td>
+            <ngb-highlight
+              [result]="lending.dateLent"
+              [term]="bookHistoryService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="
+                lending.dateReturned ? lending.dateReturned : 'Not returned yet'
+              "
+              [term]="bookHistoryService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="lending.firstName"
+              [term]="bookHistoryService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="lending.lastName"
+              [term]="bookHistoryService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="lending.comment"
+              [term]="bookHistoryService.searchTerm"
+            ></ngb-highlight>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="(total$ | async)!"
+        [(page)]="bookHistoryService.page"
+        [pageSize]="bookHistoryService.pageSize"
+      >
+      </ngb-pagination>
+      <select
+        class="custom-select"
+        style="width: auto"
+        name="pageSize"
+        [(ngModel)]="bookHistoryService.pageSize"
+      >
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="20">20 items per page</option>
+      </select>
+    </div>
+  </div>
+</div>
