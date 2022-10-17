@@ -24,7 +24,6 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin(origins = "http://localhost:4200")
 @Api("Categories Management API")
 public class CategoryController {
 

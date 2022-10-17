@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: library-spring-boot
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: library-spring-boot
+  template:
+    metadata:
+      name: library-spring-boot
+      labels:
+        app: library-spring-boot
+    spec:
+      containers:
+      - name: library-spring-boot
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_password
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: hostname-config
+                key: postgres_host
+        image: library-spring-boot
+        imagePullPolicy: Never
