@@ -16,8 +16,8 @@ export class LendingDataService {
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.apiPort = Application.apiPort;
-    this.lendingsUrl = `http://localhost:${this.apiPort}/api/lendings`;
-    this.lendingHistoryUrl = `http://localhost:${this.apiPort}/api/lendings/history`;
+    this.lendingsUrl = `http://192.168.49.2:${this.apiPort}/api/lendings`;
+    this.lendingHistoryUrl = `http://192.168.49.2:${this.apiPort}/api/lendings/history`;
   }
 
   public lendBook(

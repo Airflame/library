@@ -34,3 +34,16 @@ spec:
                 key: postgres_host
         image: library-spring-boot
         imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: library-spring-boot
+spec:
+  type: NodePort
+  ports:
+    - port: 7777
+      targetPort: 7777
+      nodePort: 30077
+  selector:
+    app: library-spring-boot

@@ -17,8 +17,8 @@ export class CategoryDataService {
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.apiPort = Application.apiPort;
-    this.categoriesUrl = `http://localhost:${this.apiPort}/api/categories`;
-    this.getCategoriesUrl = `http://localhost:${this.apiPort}/api/categories/count`;
+    this.categoriesUrl = `http://192.168.49.2:${this.apiPort}/api/categories`;
+    this.getCategoriesUrl = `http://192.168.49.2:${this.apiPort}/api/categories/count`;
   }
 
   public getCategories(): Observable<Category[]> {

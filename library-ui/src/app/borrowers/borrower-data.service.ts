@@ -15,7 +15,7 @@ export class BorrowerDataService {
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.apiPort = Application.apiPort;
-    this.borrowersUrl = `http://localhost:${this.apiPort}/api/borrowers`;
+    this.borrowersUrl = `http://192.168.49.2:${this.apiPort}/api/borrowers`;
   }
 
   public getAllBorrowers(): Observable<Borrower[]> {

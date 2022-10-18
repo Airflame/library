@@ -20,10 +20,10 @@ export class BookDataService {
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.apiPort = Application.apiPort;
-    this.availableBookUrl = `http://localhost:${this.apiPort}/api/books/available`;
-    this.lentBookUrl = `http://localhost:${this.apiPort}/api/books/lent`;
-    this.bookHistoryUrl = `http://localhost:${this.apiPort}/api/books/history`;
-    this.bookUrl = `http://localhost:${this.apiPort}/api/books`;
+    this.availableBookUrl = `http://192.168.49.2:${this.apiPort}/api/books/available`;
+    this.lentBookUrl = `http://192.168.49.2:${this.apiPort}/api/books/lent`;
+    this.bookHistoryUrl = `http://192.168.49.2:${this.apiPort}/api/books/history`;
+    this.bookUrl = `http://192.168.49.2:${this.apiPort}/api/books`;
   }
 
   public getAvailableBooks(): Observable<AvailableBook[]> {
