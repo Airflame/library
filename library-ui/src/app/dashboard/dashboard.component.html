@@ -1,36 +1,18 @@
 <div class="chart-card">
-<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-	<ngb-panel title="Simple">
-		<ng-template ngbPanelContent>
-            <div style="display: block;" class="chart">
-            <canvas baseChart
-                          [datasets]="labelMFL"
-                          [labels]="lineChartLabels"
-                          [options]="lineChartOptions"
-                          [chartType]="ChartType"
-                          (chartHover)="chartHovered($event)"
-                          (chartClick)="chartClicked($event)"></canvas>
-                        </div>
-        </ng-template>
-	</ngb-panel>
-</ngb-accordion>
-</div>
-
-<div class="chart-card">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-        <ngb-panel title="Simple">
+        <ngb-panel title="Books available and lent">
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
-                    <canvas baseChart *ngIf="pieChartData"
-                    [data]="pieChartData" 
-                    [labels]="pieChartLabels" 
-                    [chartType]="pieChartType"
-                    [options]="pieChartOptions"
-                    [plugins]="pieChartPlugins"
-                    [legend]="pieChartLegend">
+                    <canvas baseChart *ngIf="availabilityChartData"
+                    [data]="availabilityChartData" 
+                    [labels]="availabilityChartLabels" 
+                    [chartType]="availabilityChartType"
+                    [options]="availabilityChartOptions"
+                    [plugins]="availabilityChartPlugins"
+                    [legend]="availabilityChartLegend">
                   </canvas>
                             </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>
-    </div>
+</div>

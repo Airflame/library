@@ -26,4 +26,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Modifying
     @Query("UPDATE Book b SET b.categoryId = :newId WHERE b.categoryId = :oldId")
     void updateCategoryId(@Param("oldId") int oldId, @Param("newId") int newId);
+
+    Integer countByIsLent(Boolean isLent);
 }

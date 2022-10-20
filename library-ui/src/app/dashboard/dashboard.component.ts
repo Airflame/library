@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Label, SingleDataSet } from 'ng2-charts';
+import { merge, Observable } from 'rxjs';
+import { BookDataService } from '../books/book-data.service';
+import { CategoryDataService } from '../categories/category-data.service';
+import { LendingDataService } from '../lendings/lending-data.service';
+import { StatsBooksAvailability } from '../model/stats-books-availability';
+import { DashboardDataService } from './dashboard-data.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,85 +14,34 @@ import { Label, SingleDataSet } from 'ng2-charts';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  availabilityStats$: Observable<StatsBooksAvailability>;
 
-  public SystemName: string = "MF1";
-  public lineChartData: Array<number> = [1,8,49];
+  availabilityChartOptions: ChartOptions;
+  availabilityChartLabels: Label[];
+  availabilityChartData: SingleDataSet;
+  availabilityChartType: ChartType;
+  availabilityChartLegend: boolean;
+  availabilityChartPlugins = [];
 
-  public labelMFL: Array<any> = [
-    { data: this.lineChartData,
-      label: this.SystemName
-    }
-  ];
-
-  public lineChartLabels: Array<any> = ["2018-01-29 10:00:00", "2018-01-29 10:27:00", "2018-01-29 10:28:00"];
-
-  public lineChartOptions: any = {
-    responsive: true,
-    scales : {
-      yAxes: [{
-        ticks: {
-          max : 60,
-          min : 0,
-        }
-      }],
-      xAxes: [{
-  
- 
-        }],
-    },
-      plugins: {
-      datalabels: {
-        display: true,
-        align: 'top',
-        anchor: 'end',
-        //color: "#2756B3",
-        color: "#222",
-
-        font: {
-          family: 'FontAwesome',
-          size: 14
-        },
-      
-      },
-      deferred: false
-
-    },
-
-  };
-
-   _lineChartColors:Array<any> = [{
-       backgroundColor: 'red',
-        borderColor: 'red',
-        pointBackgroundColor: 'red',
-        pointBorderColor: 'red',
-        pointHoverBackgroundColor: 'red',
-        pointHoverBorderColor: 'red' 
-      }];
-
-  public ChartType = 'bar';
-
-  public chartClicked(e: any): void {
-    console.log(e);
-  }
-  public chartHovered(e: any): void {
-    console.log(e);
-  }
-
-  pieChartOptions: ChartOptions;
-  pieChartLabels: Label[];
-  pieChartData: SingleDataSet;
-  pieChartType: ChartType;
-  pieChartLegend: boolean;
-  pieChartPlugins = [];
-
-  constructor() { }
+  constructor(public dashboardDataService: DashboardDataService,
+    private bookDataService: BookDataService,
+    private categoryDataService: CategoryDataService,
+    private lendingDataService: LendingDataService) { }
 
   ngOnInit(): void {
-    this.pieChartOptions = this.createOptions();
-    this.pieChartLabels = ['January', 'February', 'March'];
-    this.pieChartData = [50445, 33655, 15900];
-    this.pieChartType = 'pie';
-    this.pieChartLegend = true;
+    this.availabilityChartOptions = this.createOptions();
+    this.availabilityChartLabels = ['Books available', 'Books lent'];
+    this.availabilityChartType = 'pie';
+    this.availabilityChartLegend = true;
+    this.availabilityStats$ = this.dashboardDataService.getBooksAvailability();
+    merge(
+      this.bookDataService.refresh$,
+      this.categoryDataService.refresh$,
+      this.lendingDataService.refresh$
+    ).subscribe((av) => {
+      this.refreshData();
+    });
+    this.availabilityStats$.subscribe(s => this.availabilityChartData = [s.available, s.lent])
   }
 
   private createOptions(): ChartOptions {
@@ -101,6 +56,10 @@ export class DashboardComponent implements OnInit {
               }
           },
     };
+  }
+
+  private refreshData() {
+    this.availabilityStats$ = this.dashboardDataService.getBooksAvailability();
   }
 
 }
