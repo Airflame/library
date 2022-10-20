@@ -5,9 +5,11 @@ import { BookHistoryComponent } from './books/book-history/book-history.componen
 import { LentBooksComponent } from './books/lent-books/lent-books.component';
 import { BorrowersComponent } from './borrowers/borrowers/borrowers.component';
 import { CategoriesComponent } from './categories/categories/categories.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { LendingHistoryComponent } from './lendings/lending-history/lending-history.component';
 
 const routes: Routes = [
+  { path: '', component: DashboardComponent },
   { path: 'books/available', component: AvailableBooksComponent },
   { path: 'books/lent', component: LentBooksComponent },
   { path: 'books/:id', component: BookHistoryComponent },

@@ -25,6 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BorrowersComponent } from './borrowers/borrowers/borrowers.component';
 import { AddBorrowerDialogComponent } from './borrowers/borrowers/add-borrower-dialog/add-borrower-dialog.component';
 import { DeleteBorrowerDialogComponent } from './borrowers/borrowers/delete-borrower-dialog/delete-borrower-dialog.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { DeleteBorrowerDialogComponent } from './borrowers/borrowers/delete-borr
     DeletePastLendingDialogComponent,
     BorrowersComponent,
     AddBorrowerDialogComponent,
-    DeleteBorrowerDialogComponent
+    DeleteBorrowerDialogComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { DeleteBorrowerDialogComponent } from './borrowers/borrowers/delete-borr
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ChartsModule,
     ToastrModule.forRoot()
   ],
   providers: [DecimalPipe],
