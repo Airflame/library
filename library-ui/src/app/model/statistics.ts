@@ -1,4 +1,4 @@
-export class StatsBooksAvailability {
+export class Statistics {
     available: number;
     lent: number;
 }

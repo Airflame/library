@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class StatsBooksAvailabilityDTO {
-    private Integer available;
-    private Integer lent;
+public class StatisticsDTO {
+    private Integer availableBooks;
+    private Integer lentBooks;
 }

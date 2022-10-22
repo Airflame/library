@@ -5,7 +5,7 @@ import { merge, Observable } from 'rxjs';
 import { BookDataService } from '../books/book-data.service';
 import { CategoryDataService } from '../categories/category-data.service';
 import { LendingDataService } from '../lendings/lending-data.service';
-import { StatsBooksAvailability } from '../model/stats-books-availability';
+import { Statistics } from '../model/statistics';
 import { DashboardDataService } from './dashboard-data.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { DashboardDataService } from './dashboard-data.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  availabilityStats$: Observable<StatsBooksAvailability>;
+  statistics$: Observable<Statistics>;
 
   availabilityChartOptions: ChartOptions;
   availabilityChartLabels: Label[];
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
     this.availabilityChartLabels = ['Books available', 'Books lent'];
     this.availabilityChartType = 'pie';
     this.availabilityChartLegend = true;
-    this.availabilityStats$ = this.dashboardDataService.getBooksAvailability();
+    this.statistics$ = this.dashboardDataService.getStatistics();
     merge(
       this.bookDataService.refresh$,
       this.categoryDataService.refresh$,
@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     ).subscribe((av) => {
       this.refreshData();
     });
-    this.availabilityStats$.subscribe(s => this.availabilityChartData = [s.available, s.lent])
+    this.statistics$.subscribe(s => this.availabilityChartData = [s.available, s.lent])
   }
 
   private createOptions(): ChartOptions {
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private refreshData() {
-    this.availabilityStats$ = this.dashboardDataService.getBooksAvailability();
+    this.statistics$ = this.dashboardDataService.getStatistics();
   }
 
 }
