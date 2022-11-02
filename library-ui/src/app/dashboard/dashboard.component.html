@@ -1,6 +1,6 @@
-<div class="chart-card">
+<div style="display: inline-block;" class="chart-card">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-        <ngb-panel title="Books available and lent">
+        <ngb-panel id="ngb-panel-0" title="Books available and lent">
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
                     <canvas baseChart *ngIf="availabilityChartData"
@@ -16,9 +16,38 @@
         </ngb-panel>
     </ngb-accordion>
 </div>
-<div class="timeline-card">
+<div style="display: inline-block;" class="chart-card">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-        <ngb-panel title="Lendings timeline">
+        <ngb-panel id="ngb-panel-0" title="Number of books in categories">
+            <ng-template ngbPanelContent>
+                <div style="display: block;" class="chart">
+                    <canvas baseChart *ngIf="categoryChartData"
+                    [data]="categoryChartData" 
+                    [labels]="categoryChartLabels" 
+                    [chartType]="categoryChartType"
+                    [options]="categoryChartOptions"
+                    [plugins]="categoryChartPlugins"
+                    [legend]="categoryChartLegend">
+                  </canvas>
+                            </div>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>
+<div style="display: inline-block;" class="chart-card">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel id="ngb-panel-0" title="Raport generation">
+            <ng-template ngbPanelContent>
+                <div style="display: block;" class="chart">
+                    <button type="button" class="btn btn-primary">Generate raport</button>
+                            </div>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>
+<div style="display: block;" class="timeline-card">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel id="ngb-panel-0" title="Lendings timeline">
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
                     <canvas baseChart *ngIf="timelineChartData" [datasets]="timelineChartData"

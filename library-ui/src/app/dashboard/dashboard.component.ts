@@ -23,15 +23,30 @@ export class DashboardComponent implements OnInit {
   availabilityChartLegend: boolean;
   availabilityChartPlugins = [];
 
+  categoryChartOptions: ChartOptions = {
+    scales : {
+      yAxes: [{
+         ticks: {
+            stepSize: 1
+          }
+      }] 
+    }
+  };
+  categoryChartLabels: Label[];
+  categoryChartData: SingleDataSet;
+  categoryChartType: ChartType;
+  categoryChartLegend: boolean;
+  categoryChartPlugins = [];
+
   timelineChartData: ChartDataSets[];
   timelineChartLabels: Label[];
-  timelineChartOptions: ChartOptions  = {
+  timelineChartOptions: ChartOptions = {
     responsive: true,
-		maintainAspectRatio: true,
-     scales: {
+    maintainAspectRatio: true,
+    scales: {
       yAxes: [
         {
-         scaleLabel: {
+          scaleLabel: {
             display: true,
             labelString: 'Total lendings'
           },
@@ -41,7 +56,7 @@ export class DashboardComponent implements OnInit {
             fontStyle: 'normal',
             fontSize: 13,
             beginAtZero: false,
-            callback: ( value ) => {
+            callback: (value) => {
               return `${value.toLocaleString()}`;
             },
           },
@@ -85,6 +100,8 @@ export class DashboardComponent implements OnInit {
     this.availabilityChartLabels = ['Books available', 'Books lent'];
     this.availabilityChartType = 'pie';
     this.availabilityChartLegend = true;
+    this.categoryChartType = 'bar';
+    this.categoryChartLegend = false;
     this.statistics$ = this.dashboardDataService.getStatistics();
     merge(
       this.bookDataService.refresh$,
@@ -95,22 +112,24 @@ export class DashboardComponent implements OnInit {
     });
     this.statistics$.subscribe(s => {
       this.availabilityChartData = [s.availableBooks, s.lentBooks];
-      this.timelineChartData = [{data: Object.values(s.lendingsTimeline), label: "Total lendings"}];
+      this.timelineChartData = [{ data: Object.values(s.lendingsTimeline), label: "Total lendings" }];
       this.timelineChartLabels = Object.keys(s.lendingsTimeline);
+      this.categoryChartData = s.categories.map(category => category.bookCount);
+      this.categoryChartLabels = s.categories.map(category => category.name);
     });
   }
 
   private createOptions(): ChartOptions {
     return {
       responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-              labels: {
-                render: 'percentage',
-                fontColor: ['green', 'white', 'red'],
-                precision: 2
-              }
-          },
+      maintainAspectRatio: true,
+      plugins: {
+        labels: {
+          render: 'percentage',
+          fontColor: ['green', 'white', 'red'],
+          precision: 2
+        }
+      },
     };
   }
 
