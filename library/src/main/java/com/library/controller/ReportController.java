@@ -3,6 +3,8 @@ package com.library.controller;
 import com.library.service.ReportService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,7 @@ public class ReportController {
     private final ReportService reportService;
 
     @PostMapping(path = "/reports")
-    public void generateReport() {
-        reportService.generateReport();
+    public ResponseEntity<Resource> generateReport() {
+        return reportService.generateReport();
     }
 }

@@ -4,10 +4,16 @@ import com.library.dto.StatisticsDTO;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +25,7 @@ public class ReportService {
 
     private final StatisticsService statisticsService;
 
-    public void generateReport() {
+    public ResponseEntity<Resource> generateReport() {
         try {
             Map<String, Object> parameters = new HashMap<>();
             StatisticsDTO statistics = statisticsService.getStatistics();
@@ -34,8 +40,16 @@ public class ReportService {
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, source);
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, "Books_report.pdf");
+
+            //Resource resource = new UrlResource(Paths.get("Books_report.pdf").toUri());
+
+            return ResponseEntity.ok()
+                    //.contentType(MediaType.parseMediaType("application/pdf"))
+                    //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return ResponseEntity.badRequest().body(null);
     }
 }

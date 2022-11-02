@@ -34,12 +34,12 @@
         </ngb-panel>
     </ngb-accordion>
 </div>
-<div style="display: inline-block;" class="chart-card">
+<div style="display: inline-block;" class="chart-card" *ngIf="false">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-        <ngb-panel id="ngb-panel-0" title="Raport generation">
+        <ngb-panel id="ngb-panel-0" title="Reports generation">
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
-                    <button type="button" class="btn btn-primary">Generate raport</button>
+                    <button type="button" class="btn btn-primary" (click)="generateReports()">Generate reports</button>
                             </div>
             </ng-template>
         </ngb-panel>

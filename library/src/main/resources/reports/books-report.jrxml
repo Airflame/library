@@ -37,9 +37,9 @@
     <columnHeader>
         <band height="100" splitType="Stretch">
             <staticText>
-                <reportElement x="0" y="0" width="50" height="20"/>
+                <reportElement x="0" y="0" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Available:]]></text>
+                <text><![CDATA[Available books:]]></text>
             </staticText>
             <textField>
                 <reportElement x="100" y="0" width="100" height="20"/>
@@ -51,7 +51,7 @@
             <staticText>
                 <reportElement x="0" y="15" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Lent:]]></text>
+                <text><![CDATA[Lent books:]]></text>
             </staticText>
             <textField>
                 <reportElement x="100" y="15" width="100" height="20"/>
