@@ -12,6 +12,7 @@ import com.library.repository.CategoryRepository;
 import com.library.repository.LendingRepository;
 import com.library.repository.BorrowerRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -19,14 +20,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Service with methods for managing lendings in the database.
- *
- *
  */
 @Component
 @Transactional
@@ -153,7 +151,7 @@ public class LendingService {
      * author, title and category name of all currently borrowed books along with the total number of them.
      *
      * @param firstName First name of the borrower
-     * @param lastName Last name of the borrower
+     * @param lastName  Last name of the borrower
      * @return List of all lendings associated with a person with given personal data
      */
     public LendingHistoryDTO getLendingHistory(String firstName, String lastName) {
@@ -191,6 +189,24 @@ public class LendingService {
         lendingRepository.deleteById(id);
     }
 
+    public Map<String, Integer> countByMonths() {
+        List<Lending> lendings = lendingRepository.findAll();
+        Map<String, Integer> result = new TreeMap<>();
+        lendings.forEach(lending -> {
+            LocalDate date = lending.getDateLent();
+            result.merge(date.getYear() + "/" + (date.getMonthValue() < 10 ? "0" + date.getMonthValue() : date.getMonthValue()), 1, Integer::sum);
+        });
+        int firstYear = Integer.parseInt(result.keySet().iterator().next().split("/")[0]);
+        for (int year = firstYear; year < LocalDate.now().getYear(); year++) {
+            for (int month = 1; month < 12; month++) {
+                String key = year + "/" + (month < 10 ? "0" + month : month);
+                if (!result.containsKey(key))
+                    result.put(key, 0);
+            }
+        }
+        return result;
+    }
+
     private BookDTO mapToBookDTO(Book book, List<Category> categories) {
         return BookDTO.builder().id(book.getId()).author(book.getAuthor()).title(book.getTitle())
                 .category(categories.stream().filter(
@@ -202,6 +218,6 @@ public class LendingService {
         return LendingDTO.builder().id(lending.getId()).bookId(lending.getBookId())
                 .firstName(borrower.getFirstName()).lastName(borrower.getLastName())
                 .dateLent(lending.getDateLent()).dateReturned(lending.getDateReturned())
-                .comment(lending.getComment() != null ? lending.getComment() : "No comment" ).build();
+                .comment(lending.getComment() != null ? lending.getComment() : "No comment").build();
     }
 }

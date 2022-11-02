@@ -14,10 +14,13 @@ public class StatisticsService {
 
     private final BookRepository bookRepository;
 
+    private final LendingService lendingService;
+
     public StatisticsDTO getStatistics() {
         return StatisticsDTO.builder()
                 .availableBooks(bookRepository.countByIsLent(false))
                 .lentBooks(bookRepository.countByIsLent(true))
+                .lendingsTimeline(lendingService.countByMonths())
                 .build();
     }
 }

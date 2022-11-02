@@ -1,4 +1,5 @@
 export class Statistics {
-    available: number;
-    lent: number;
+    availableBooks: number;
+    lentBooks: number;
+    lendingsTimeline: Map<string, number>;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartOptions, ChartType } from 'chart.js';
-import { Label, SingleDataSet } from 'ng2-charts';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { Color, Label, SingleDataSet } from 'ng2-charts';
 import { merge, Observable } from 'rxjs';
 import { BookDataService } from '../books/book-data.service';
 import { CategoryDataService } from '../categories/category-data.service';
@@ -23,6 +23,58 @@ export class DashboardComponent implements OnInit {
   availabilityChartLegend: boolean;
   availabilityChartPlugins = [];
 
+  timelineChartData: ChartDataSets[];
+  timelineChartLabels: Label[];
+  timelineChartOptions: ChartOptions  = {
+    responsive: true,
+		maintainAspectRatio: true,
+     scales: {
+      yAxes: [
+        {
+         scaleLabel: {
+            display: true,
+            labelString: 'Total lendings'
+          },
+          ticks: {
+            // maxTicksLimit: 4,
+            stepSize: 1,
+            fontStyle: 'normal',
+            fontSize: 13,
+            beginAtZero: false,
+            callback: ( value ) => {
+              return `${value.toLocaleString()}`;
+            },
+          },
+          gridLines: {
+            drawOnChartArea: false,
+            // color: '#676A6C',
+          }
+        }],
+      xAxes: [{
+        ticks: {
+          stepSize: 4,
+          fontStyle: 'normal',
+          fontSize: 13,
+          autoSkip: false,
+          maxRotation: 90,
+          minRotation: 90,
+        },
+        gridLines: {
+          drawOnChartArea: false,
+          // color: '#676A6C',
+          lineWidth: 1.5
+        }
+      }]
+    },
+    hover: {
+      mode: 'nearest',
+      intersect: true
+    },
+
+  };
+  timelineChartLegend = true;
+  timelineChartType: ChartType = 'line';
+
   constructor(public dashboardDataService: DashboardDataService,
     private bookDataService: BookDataService,
     private categoryDataService: CategoryDataService,
@@ -41,7 +93,11 @@ export class DashboardComponent implements OnInit {
     ).subscribe((av) => {
       this.refreshData();
     });
-    this.statistics$.subscribe(s => this.availabilityChartData = [s.available, s.lent])
+    this.statistics$.subscribe(s => {
+      this.availabilityChartData = [s.availableBooks, s.lentBooks];
+      this.timelineChartData = [{data: Object.values(s.lendingsTimeline), label: "Total lendings"}];
+      this.timelineChartLabels = Object.keys(s.lendingsTimeline);
+    });
   }
 
   private createOptions(): ChartOptions {

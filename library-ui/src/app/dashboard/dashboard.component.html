@@ -16,3 +16,19 @@
         </ngb-panel>
     </ngb-accordion>
 </div>
+<div class="timeline-card">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel title="Lendings timeline">
+            <ng-template ngbPanelContent>
+                <div style="display: block;" class="chart">
+                    <canvas baseChart *ngIf="timelineChartData" [datasets]="timelineChartData"
+                    [labels]="timelineChartLabels"
+                    [options]="timelineChartOptions"
+                    [legend]="timelineChartLegend"
+                    [chartType]="timelineChartType">
+                  </canvas>
+                            </div>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>
