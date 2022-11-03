@@ -216,9 +216,9 @@ public class BookServiceTests {
 
         List<EveryBookDTO> allBooks = new ArrayList<>();
         allBooks.add(EveryBookDTO.builder().id(1).author("autor1").title("tytul1").category("Default").isLent(true)
-                .firstName("Jan").lastName("Kowalski").dateLent(LocalDate.of(2020, 6, 1)).build());
+                .firstName("Jan").lastName("Kowalski").dateLent(LocalDate.of(2020, 6, 1).toString()).build());
         allBooks.add(EveryBookDTO.builder().id(2).author("autor2").title("tytul2").category("Programming").isLent(true)
-                .firstName("Adam").lastName("Nowak").dateLent(LocalDate.of(2021, 1, 2)).build());
+                .firstName("Adam").lastName("Nowak").dateLent(LocalDate.of(2021, 1, 2).toString()).build());
         allBooks.add(EveryBookDTO.builder().id(3).author("autor3").title("tytul3").category("Management").isLent(false)
                 .build());
 

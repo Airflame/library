@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public class ReportService {
             JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(bookService.getAvailableAndLentBooks());
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, source);
 
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "Books_report.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "books-report-" + new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss").format(new java.util.Date()) + ".pdf");
 
             //Resource resource = new UrlResource(Paths.get("Books_report.pdf").toUri());
 

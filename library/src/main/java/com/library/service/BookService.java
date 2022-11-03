@@ -175,7 +175,7 @@ public class BookService {
                 .isLent(book.getIsLent())
                 .firstName(lending != null ? borrower.getFirstName() : null)
                 .lastName(lending != null ? borrower.getLastName() : null)
-                .dateLent(lending != null ? lending.getDateLent() : null).build();
+                .dateLent(lending != null ? lending.getDateLent().toString() : null).build();
     }
 
     private LendingDTO mapToLendingDTO(Lending lending, List<Borrower> borrowers) {

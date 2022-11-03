@@ -24,5 +24,5 @@ public class EveryBookDTO {
     private Boolean isLent;
     private String firstName;
     private String lastName;
-    private LocalDate dateLent;
+    private String dateLent;
 }
