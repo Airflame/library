@@ -145,6 +145,19 @@ public class BookService {
                         .map(l -> mapToLendingDTO(l, borrowers)).collect(Collectors.toList())).build();
     }
 
+    public String getMostPopularBookName() {
+        List<Book> books = bookRepository.findAll();
+        Book mostPopular = books.get(0);
+        int maxLent = 0;
+        for (Book book : books) {
+            if (book.getLendings().size() > maxLent) {
+                mostPopular = book;
+                maxLent = book.getLendings().size();
+            }
+        }
+        return mostPopular.getAuthor() + " - " + mostPopular.getTitle();
+    }
+
     private BookDTO mapToAvailableBookDTO(Book book, List<Category> categories) {
         return BookDTO.builder().id(book.getId()).author(book.getAuthor()).title(book.getTitle())
                 .category(categories.stream().filter(

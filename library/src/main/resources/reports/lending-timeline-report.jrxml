@@ -3,41 +3,31 @@
               xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
         http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
               name="My first report">
-    <parameter name="availableBooks" class="java.lang.Integer"/>
-    <parameter name="lentBooks" class="java.lang.Integer"/>
-    <parameter name="mostPopularBookName" class="java.lang.String"/>
+    <parameter name="mostLent" class="java.lang.String"/>
+    <parameter name="mostReturned" class="java.lang.String"/>
+    <parameter name="mostTotalLent" class="java.lang.String"/>
     <parameter name="generated" class="java.lang.String"/>
     <queryString>
         <![CDATA[]]>
     </queryString>
-    <field name="author">
+    <field name="month">
         <fieldDescription>
-            <![CDATA[author]]>
+            <![CDATA[month]]>
         </fieldDescription>
     </field>
-    <field name="title">
+    <field name="lent">
         <fieldDescription>
-            <![CDATA[title]]>
+            <![CDATA[lent]]>
         </fieldDescription>
     </field>
-    <field name="category">
+    <field name="returned">
         <fieldDescription>
-            <![CDATA[category]]>
+            <![CDATA[returned]]>
         </fieldDescription>
     </field>
-    <field name="dateLent">
+    <field name="totalLent">
         <fieldDescription>
-            <![CDATA[dateLent]]>
-        </fieldDescription>
-    </field>
-    <field name="firstName">
-        <fieldDescription>
-            <![CDATA[firstName]]>
-        </fieldDescription>
-    </field>
-    <field name="lastName">
-        <fieldDescription>
-            <![CDATA[lastName]]>
+            <![CDATA[totalLent]]>
         </fieldDescription>
     </field>
     <background>
@@ -51,7 +41,7 @@
                     <font size="20" isBold="true"/>
                 </textElement>
                 <text>
-                    <![CDATA[Books report]]>
+                    <![CDATA[Lending report]]>
                 </text>
             </staticText>
         </band>
@@ -61,37 +51,37 @@
             <staticText>
                 <reportElement x="0" y="0" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Available books:]]></text>
+                <text><![CDATA[Most lent in:]]></text>
             </staticText>
             <textField>
                 <reportElement x="100" y="0" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.Integer">
-                    <![CDATA[$P{availableBooks}]]>
+                    <![CDATA[$P{mostLent}]]>
                 </textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="0" y="15" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Lent books:]]></text>
+                <text><![CDATA[Most returned in:]]></text>
             </staticText>
             <textField>
                 <reportElement x="100" y="15" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.Integer">
-                    <![CDATA[$P{lentBooks}]]>
+                    <![CDATA[$P{mostReturned}]]>
                 </textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="0" y="30" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Most popular book:]]></text>
+                <text><![CDATA[Most total lent in:]]></text>
             </staticText>
             <textField>
                 <reportElement x="100" y="30" width="200" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.String">
-                    <![CDATA[$P{mostPopularBookName}]]>
+                    <![CDATA[$P{mostTotalLent}]]>
                 </textFieldExpression>
             </textField>
             <staticText>
@@ -109,27 +99,22 @@
             <staticText>
                 <reportElement x="0" y="70" width="50" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Author]]></text>
+                <text><![CDATA[Month]]></text>
             </staticText>
             <staticText>
                 <reportElement x="100" y="70" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Title]]></text>
+                <text><![CDATA[Lent]]></text>
             </staticText>
             <staticText>
                 <reportElement x="200" y="70" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Category]]></text>
+                <text><![CDATA[Returned]]></text>
             </staticText>
             <staticText>
                 <reportElement x="300" y="70" width="100" height="20"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Date lent]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="400" y="70" width="100" height="20"/>
-                <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Lender name]]></text>
+                <text><![CDATA[Total lent]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -139,42 +124,28 @@
                 <reportElement x="0" y="0" width="50" height="15"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.String">
-                    <![CDATA[$F{author}]]>
+                    <![CDATA[$F{month}]]>
                 </textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="100" y="0" width="100" height="15"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.String">
-                    <![CDATA[$F{title}]]>
+                    <![CDATA[$F{lent}]]>
                 </textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="200" y="0" width="100" height="15"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.String">
-                    <![CDATA[$F{category}]]>
+                    <![CDATA[$F{returned}]]>
                 </textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="300" y="0" width="100" height="15"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
                 <textFieldExpression class="java.lang.String">
-                    <![CDATA[$F{dateLent} != null ? $F{dateLent} : ""]]>
-                </textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="400" y="0" width="100" height="15"/>
-                <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <textFieldExpression class="java.lang.String">
-                    <![CDATA[$F{firstName} != null ? $F{firstName} : ""]]>
-                </textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="500" y="0" width="100" height="15"/>
-                <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <textFieldExpression class="java.lang.String">
-                    <![CDATA[$F{lastName} != null ? $F{lastName} : ""]]>
+                    <![CDATA[$F{totalLent}]]>
                 </textFieldExpression>
             </textField>
         </band>

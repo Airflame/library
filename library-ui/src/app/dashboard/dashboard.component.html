@@ -42,6 +42,40 @@
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
         <ngb-panel id="ngb-panel-0" title="Lendings timeline">
             <ng-template ngbPanelContent>
+                <div class="datepicker">
+                    <form>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    placeholder="yyyy-mm-dd"
+                                    name="dpstart"
+                                    [(ngModel)]="startDate"
+                                    (ngModelChange)="dateChange()"
+                                    ngbDatepicker
+                                    #sd="ngbDatepicker"
+                                />
+                                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="sd.toggle()" type="button"></button>
+                            </div>
+                        </div>
+                    </form>
+                    <form>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    placeholder="yyyy-mm-dd"
+                                    name="dpend"
+                                    [(ngModel)]="endDate"
+                                    (ngModelChange)="dateChange()"
+                                    ngbDatepicker
+                                    #ed="ngbDatepicker"
+                                />
+                                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="ed.toggle()" type="button"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div style="display: block;" class="chart">
                     <canvas baseChart *ngIf="timelineChartData" [datasets]="timelineChartData"
                         [labels]="timelineChartLabels" [options]="timelineChartOptions" [legend]="timelineChartLegend"

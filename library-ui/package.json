@@ -22,6 +22,7 @@
     "@angular/router": "~11.2.7",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "bootstrap": "^4.5.0",
+    "bootstrap-icons": "^1.9.1",
     "chart.js": "^2.9.3",
     "moment": "^2.29.1",
     "ng2-charts": "^2.2.3",

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label, SingleDataSet } from 'ng2-charts';
 import { merge, Observable } from 'rxjs';
@@ -90,6 +91,11 @@ export class DashboardComponent implements OnInit {
   timelineChartLegend = true;
   timelineChartType: ChartType = 'line';
 
+  public statistics: Statistics;
+
+  startDate: NgbDateStruct;
+  endDate: NgbDateStruct;
+
   constructor(public dashboardDataService: DashboardDataService,
     private bookDataService: BookDataService,
     private categoryDataService: CategoryDataService,
@@ -111,6 +117,7 @@ export class DashboardComponent implements OnInit {
       this.refreshData();
     });
     this.statistics$.subscribe(s => {
+      this.statistics = s;
       this.availabilityChartData = [s.availableBooks, s.lentBooks];
       this.timelineChartData = [{ data: Object.values(s.lendingTimeline.lent), label: "Books lent" }, { data: Object.values(s.lendingTimeline.returned), label: "Books returned" }, { data: Object.values(s.lendingTimeline.totalLent), label: "Total books lent" }];
       this.timelineChartLabels = Object.keys(s.lendingTimeline.lent);
@@ -124,6 +131,18 @@ export class DashboardComponent implements OnInit {
       const fileURL = URL.createObjectURL(res);
       window.open(fileURL, '_blank');
     });
+  }
+
+  public dateChange(): void {
+    let timelineStart: string = this.startDate.year + "/" + (this.startDate.month < 10 ? '0' + this.startDate.month : this.startDate.month);
+    let timelineEnd = this.endDate.year + "/" + (this.endDate.month < 10 ? '0' + this.endDate.month : this.endDate.month);
+    let start = Object.keys(this.statistics.lendingTimeline.lent).indexOf(timelineStart);
+    let end = Object.keys(this.statistics.lendingTimeline.lent).indexOf(timelineEnd);
+    console.log(start);
+    this.timelineChartLabels = Object.keys(this.statistics.lendingTimeline.lent).slice(start, end);
+    this.timelineChartData = [{ data: Object.values(this.statistics.lendingTimeline.lent).slice(start, end), label: "Books lent" }, 
+    { data: Object.values(this.statistics.lendingTimeline.returned).slice(start, end), label: "Books returned" }, 
+    { data: Object.values(this.statistics.lendingTimeline.totalLent).slice(start, end), label: "Total books lent" }];
   }
 
   private createOptions(): ChartOptions {

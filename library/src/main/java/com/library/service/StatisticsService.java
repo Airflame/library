@@ -19,7 +19,6 @@ public class StatisticsService {
     private final CategoryService categoryService;
 
     public StatisticsDTO getStatistics() {
-
         return StatisticsDTO.builder()
                 .availableBooks(bookRepository.countByIsLent(false))
                 .lentBooks(bookRepository.countByIsLent(true))

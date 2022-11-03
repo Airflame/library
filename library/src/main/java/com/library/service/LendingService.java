@@ -1,9 +1,6 @@
 package com.library.service;
 
-import com.library.dto.BookDTO;
-import com.library.dto.LendingDTO;
-import com.library.dto.LendingHistoryDTO;
-import com.library.dto.LendingTimelineDTO;
+import com.library.dto.*;
 import com.library.model.Book;
 import com.library.model.Borrower;
 import com.library.model.Category;
@@ -223,6 +220,17 @@ public class LendingService {
         }
 
         return LendingTimelineDTO.builder().lent(lentTimeline).returned(returnedTimeLine).totalLent(totalLent).build();
+    }
+
+    public List<LendingMonthDTO> countByMonthsList() {
+        LendingTimelineDTO timeline = countByMonths();
+        List<LendingMonthDTO> result = new ArrayList<>();
+        timeline.getLent().keySet().forEach(month -> result.add(LendingMonthDTO.builder()
+                .lent(timeline.getLent().get(month).toString())
+                .returned(timeline.getReturned().get(month).toString())
+                .totalLent(timeline.getTotalLent().get(month).toString())
+                .build()));
+        return result;
     }
 
     private BookDTO mapToBookDTO(Book book, List<Category> categories) {
