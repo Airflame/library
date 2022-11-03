@@ -33,6 +33,7 @@ public class ReportService {
             StatisticsDTO statistics = statisticsService.getStatistics();
             parameters.put("availableBooks", statistics.getAvailableBooks());
             parameters.put("lentBooks", statistics.getLentBooks());
+            parameters.put("generated", new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss").format(new java.util.Date()));
 
             InputStream booksReport
                     = getClass().getResourceAsStream("/reports/books-report.jrxml");
