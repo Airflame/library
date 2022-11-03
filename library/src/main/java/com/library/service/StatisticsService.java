@@ -23,7 +23,7 @@ public class StatisticsService {
         return StatisticsDTO.builder()
                 .availableBooks(bookRepository.countByIsLent(false))
                 .lentBooks(bookRepository.countByIsLent(true))
-                .lendingsTimeline(lendingService.countByMonths())
+                .lendingTimeline(lendingService.countByMonths())
                 .categories(categoryService.getAllCategoriesWithBookCount())
                 .build();
     }

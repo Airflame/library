@@ -3,15 +3,12 @@
         <ngb-panel id="ngb-panel-0" title="Books available and lent">
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
-                    <canvas baseChart *ngIf="availabilityChartData"
-                    [data]="availabilityChartData" 
-                    [labels]="availabilityChartLabels" 
-                    [chartType]="availabilityChartType"
-                    [options]="availabilityChartOptions"
-                    [plugins]="availabilityChartPlugins"
-                    [legend]="availabilityChartLegend">
-                  </canvas>
-                            </div>
+                    <canvas baseChart *ngIf="availabilityChartData" [data]="availabilityChartData"
+                        [labels]="availabilityChartLabels" [chartType]="availabilityChartType"
+                        [options]="availabilityChartOptions" [plugins]="availabilityChartPlugins"
+                        [legend]="availabilityChartLegend">
+                    </canvas>
+                </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>
@@ -21,15 +18,11 @@
         <ngb-panel id="ngb-panel-0" title="Number of books in categories">
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
-                    <canvas baseChart *ngIf="categoryChartData"
-                    [data]="categoryChartData" 
-                    [labels]="categoryChartLabels" 
-                    [chartType]="categoryChartType"
-                    [options]="categoryChartOptions"
-                    [plugins]="categoryChartPlugins"
-                    [legend]="categoryChartLegend">
-                  </canvas>
-                            </div>
+                    <canvas baseChart *ngIf="categoryChartData" [data]="categoryChartData"
+                        [labels]="categoryChartLabels" [chartType]="categoryChartType" [options]="categoryChartOptions"
+                        [plugins]="categoryChartPlugins" [legend]="categoryChartLegend">
+                    </canvas>
+                </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>
@@ -40,7 +33,7 @@
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
                     <button type="button" class="btn btn-primary" (click)="generateReports()">Generate reports</button>
-                            </div>
+                </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>
@@ -51,12 +44,10 @@
             <ng-template ngbPanelContent>
                 <div style="display: block;" class="chart">
                     <canvas baseChart *ngIf="timelineChartData" [datasets]="timelineChartData"
-                    [labels]="timelineChartLabels"
-                    [options]="timelineChartOptions"
-                    [legend]="timelineChartLegend"
-                    [chartType]="timelineChartType">
-                  </canvas>
-                            </div>
+                        [labels]="timelineChartLabels" [options]="timelineChartOptions" [legend]="timelineChartLegend"
+                        [chartType]="timelineChartType">
+                    </canvas>
+                </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>

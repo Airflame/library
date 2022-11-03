@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +12,6 @@ import java.util.Map;
 public class StatisticsDTO {
     private Integer availableBooks;
     private Integer lentBooks;
-    private Map<String, Integer> lendingsTimeline;
+    private LendingTimelineDTO lendingTimeline;
     private List<CategoryBookCountDTO> categories;
 }

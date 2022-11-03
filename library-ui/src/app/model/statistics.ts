@@ -1,8 +1,9 @@
 import { CategoryBookCount } from "./category-book-count";
+import { LendingTimeline } from "./lending-timeline";
 
 export class Statistics {
     availableBooks: number;
     lentBooks: number;
-    lendingsTimeline: Map<string, number>;
+    lendingTimeline: LendingTimeline;
     categories: CategoryBookCount[];
 }

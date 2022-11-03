@@ -3,6 +3,7 @@ package com.library.service;
 import com.library.dto.BookDTO;
 import com.library.dto.LendingDTO;
 import com.library.dto.LendingHistoryDTO;
+import com.library.dto.LendingTimelineDTO;
 import com.library.model.Book;
 import com.library.model.Borrower;
 import com.library.model.Category;
@@ -189,22 +190,39 @@ public class LendingService {
         lendingRepository.deleteById(id);
     }
 
-    public Map<String, Integer> countByMonths() {
+    public LendingTimelineDTO countByMonths() {
         List<Lending> lendings = lendingRepository.findAll();
-        Map<String, Integer> result = new TreeMap<>();
+        Map<String, Integer> lentTimeline = new TreeMap<>();
+        Map<String, Integer> returnedTimeLine = new TreeMap<>();
         lendings.forEach(lending -> {
-            LocalDate date = lending.getDateLent();
-            result.merge(date.getYear() + "/" + (date.getMonthValue() < 10 ? "0" + date.getMonthValue() : date.getMonthValue()), 1, Integer::sum);
+            LocalDate lendingDate = lending.getDateLent();
+            LocalDate returnedDate = lending.getDateReturned();
+            lentTimeline.merge(lendingDate.getYear() + "/" + (lendingDate.getMonthValue() < 10 ? "0" + lendingDate.getMonthValue() : lendingDate.getMonthValue()), 1, Integer::sum);
+            if (returnedDate != null) {
+                returnedTimeLine.merge(returnedDate.getYear() + "/" + (returnedDate.getMonthValue() < 10 ? "0" + returnedDate.getMonthValue() : returnedDate.getMonthValue()), 1, Integer::sum);
+            }
         });
-        int firstYear = Integer.parseInt(result.keySet().iterator().next().split("/")[0]);
-        for (int year = firstYear; year < LocalDate.now().getYear(); year++) {
-            for (int month = 1; month < 12; month++) {
+        int firstYear = Math.min(
+                Integer.parseInt(lentTimeline.keySet().iterator().next().split("/")[0]),
+                Integer.parseInt(returnedTimeLine.keySet().iterator().next().split("/")[0]));
+        Map<String, Integer> totalLent = new TreeMap<>();
+        totalLent.put(firstYear + "/01", 0);
+        int previous = 0;
+        for (int year = firstYear; year <= LocalDate.now().getYear(); year++) {
+            for (int month = 1; month <= 12; month++) {
                 String key = year + "/" + (month < 10 ? "0" + month : month);
-                if (!result.containsKey(key))
-                    result.put(key, 0);
+                if (!lentTimeline.containsKey(key)) {
+                    lentTimeline.put(key, 0);
+                }
+                if (!returnedTimeLine.containsKey(key)) {
+                    returnedTimeLine.put(key, 0);
+                }
+                totalLent.put(key, previous + lentTimeline.get(key) - returnedTimeLine.get(key));
+                previous = totalLent.get(key);
             }
         }
-        return result;
+
+        return LendingTimelineDTO.builder().lent(lentTimeline).returned(returnedTimeLine).totalLent(totalLent).build();
     }
 
     private BookDTO mapToBookDTO(Book book, List<Category> categories) {

@@ -24,12 +24,12 @@ export class DashboardComponent implements OnInit {
   availabilityChartPlugins = [];
 
   categoryChartOptions: ChartOptions = {
-    scales : {
+    scales: {
       yAxes: [{
-         ticks: {
-            stepSize: 1
-          }
-      }] 
+        ticks: {
+          stepSize: 1
+        }
+      }]
     }
   };
   categoryChartLabels: Label[];
@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: 'Total lendings'
+            labelString: 'Books'
           },
           ticks: {
             // maxTicksLimit: 4,
@@ -112,8 +112,8 @@ export class DashboardComponent implements OnInit {
     });
     this.statistics$.subscribe(s => {
       this.availabilityChartData = [s.availableBooks, s.lentBooks];
-      this.timelineChartData = [{ data: Object.values(s.lendingsTimeline), label: "Total lendings" }];
-      this.timelineChartLabels = Object.keys(s.lendingsTimeline);
+      this.timelineChartData = [{ data: Object.values(s.lendingTimeline.lent), label: "Books lent" }, { data: Object.values(s.lendingTimeline.returned), label: "Books returned" }, { data: Object.values(s.lendingTimeline.totalLent), label: "Total books lent" }];
+      this.timelineChartLabels = Object.keys(s.lendingTimeline.lent);
       this.categoryChartData = s.categories.map(category => category.bookCount);
       this.categoryChartLabels = s.categories.map(category => category.name);
     });
